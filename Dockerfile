@@ -1,6 +1,8 @@
 FROM python:3
 
-RUN ls -l 
+WORKDIR /usr/local/js_example
+
+COPY * /usr/local/js_example
 
 ENV FLASK_APP js_example
 
