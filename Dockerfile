@@ -1,28 +1,13 @@
-FROM alpine:3.12
+FROM python:3
 
-RUN apk add \
-    openjdk8 \
-    openssh \
-    openrc \
-    python3 \
-    py3-pip \
-    ansible \
-    git
+COPY student-exam2 student-exam2
 
-RUN adduser -D jenkins
+WORKDIR student-exam2
 
-RUN mkdir /home/jenkins/.ssh \
-    && touch /home/jenkins/.ssh/authorized_keys \
-    && chown -R jenkins /home/jenkins/.ssh \
-    && chmod 700 /home/jenkins/.ssh \
-    && chmod 600 /home/jenkins/.ssh/authorized_keys
+ENV FLASK_APP js_example
 
-VOLUME ~/jenkins_home_agent:/var/jenkins_home
+EXPOSE 5000
 
-RUN rc-update add sshd 
+RUN pip install -e .
 
-ENV SSH_PUBLIC_KEY ''
-
-COPY scripts/setup-ssh.sh /usr/local/setup-ssh.sh
-
-CMD /bin/sh /usr/local/setup-ssh.sh && tail -f /dev/null
+CMD flask run --host=0.0.0.0
