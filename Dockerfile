@@ -1,8 +1,6 @@
 FROM python:3
 
-COPY student-exam2 student-exam2
-
-WORKDIR student-exam2
+RUN ls -l 
 
 ENV FLASK_APP js_example
 
