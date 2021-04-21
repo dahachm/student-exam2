@@ -1,7 +1,7 @@
 pipeline {
     environment {
         imagename = "dahachm/js_example"
-        registryCredential = 'docker_hub'
+        registryCredential = 'dockerhub_pass'
     }
     
     agent { label 'agent-1' }
@@ -37,7 +37,6 @@ pipeline {
                 script {
                     docker.withRegistry( '', registryCredential ) {
                         dockerImage.push("$BUILD_NUMBER")
-                        dockerImage.push('latest')
                     }
                 }
             }
@@ -46,7 +45,6 @@ pipeline {
         stage('Remove Unused docker image') {
             steps {
                 sh "docker rmi $imagename:$BUILD_NUMBER"
-                sh "docker rmi $imagename:latest"
             }
         }
     }
